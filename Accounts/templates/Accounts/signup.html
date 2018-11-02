@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Sign Up!</h1>
+    <div class="container">
+      {% if messages %}
+        {% for message in messages %}
+			<div class="alert alert-info alert-dismissible fade show" role="alert">
+			  <strong>{{message}}</strong>
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+        {% endfor %}
+      {% endif %}
+<form method="POST" action="{% url 'signup' %}">
+	{% csrf_token %}
+  <div class="form-group">
+    <label>User Name</label>
+    <input type="text" class="form-control" name="username" placeholder="Enter User Name">
+    <br/>
+    <label>Password</label>
+    <input type="password" class="form-control" name="password1" placeholder="Password">
+    <br/>
+    <label>Confirm Password</label>
+    <input type="password" class="form-control" name="password2" placeholder="Repeat Password">
+  </div>
+  <button type="submit" class="btn btn-primary">Sign Up</button>
+</form>
+{%endblock%}

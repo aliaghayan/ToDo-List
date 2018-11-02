@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Login</h1>
+    <div class="container">
+      {% if messages %}
+        {% for message in messages %}
+			<div class="alert alert-info alert-dismissible fade show" role="alert">
+			  <strong>{{message}}</strong>
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+        {% endfor %}
+      {% endif %}
+<form method="POST" action="{% url 'login' %}">
+	{% csrf_token %}
+  <div class="form-group">
+    <label>User Name</label>
+    <input type="text" class="form-control" name="username" placeholder="Enter User Name">
+    <br/>
+    <label>Password</label>
+    <input type="password" class="form-control" name="password" placeholder="Enter your Password">
+    <br/>
+  </div>
+  <button type="submit" class="btn btn-primary">Login</button>
+</form>
+{%endblock%}
