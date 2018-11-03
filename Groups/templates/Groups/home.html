@@ -1,3 +1,122 @@
 {% extends 'base.html' %}
 {% block content %}
+{% if user.is_authenticated %}
+<div class="row pt-4">
+	<div class="col-12">
+	<a href="{% url 'create' %}"> <button type="button" class="btn btn-outline-info btn-block">Create New Group Of Tasks</button></a>
+	</div>
+</div>
+{%endif%}
+{% for group in ggroups.all %}
+	
+	<div class="row pt-5">
+		<div class="col-3"><img src="{{ group.icon.url }}" class="img-fluid"/></div>
+		<div class="col-6">
+			<h1>{{ group.name }}</h1>
+			<p>{{group.description}}</p>
+<!-- here is new -->
+			<h6>What Are The Tasks?</h6>
+			
+			<form action="{% url 'add_task' %}" class="form-inline" method="POST" role="form">
+				{%csrf_token%}
+			  <div class="form-group mb-1">
+			    <label for="staticEmail2" class="sr-only">Task</label>
+			    <input type="text" class="form-control" name="text" placeholder="Task">
+			  </div>
+			  <div class="form-group mx-sm-1 mb-1">
+			    <label for="staticEmail2" class="sr-only">User</label>
+			    <input type="text" class="form-control" name="assigned_to" placeholder="complier">
+			  </div>
+			  <button type="submit" class="btn btn-primary mb-2">Add Task</button>
+			</form>
+
+			<table class="table table-sm">
+			  <thead>
+			    <tr>
+			      <th scope="col">Tasks</th>
+			      <th scope="col">Complier</th>
+			      <th scope="col">Status</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	{% for jafar in ttasks.all %}
+			    <tr>
+			    	<td>{{jafar.text}}</td>
+			    	<td>{{jafar.assigned_to}}</td>
+			    	{% if jafar.complete == False %}
+			    	<td><button type="button" class="btn btn-outline-warning btn-block">Pending</button></td>
+			    	{%else%}
+			    	<td><button type="button" class="btn btn-outline-success btn-block">Done</button></td>
+			    	{%endif%}
+			    </tr>
+			    {%endfor%}
+			  </tbody>
+			</table>
+
+			
+		</div>
+		<div class="col-3">
+			{% if group.status == False %}
+				<button type="button" class="btn btn-outline-warning btn-block">Pending</button>
+			{% else %}
+				<button type="button" class="btn btn-outline-success btn-block">Done</button>
+			{%endif%}
+			<!-- </a> -->
+		</div>
+	</div>
+	<div class="row">
+	<div class="col-3 text-center">
+		<small>Created by {{ group.created_by }}</small><small>{{ group.pub_date_pretty }}</small>
+	</div>
+</div>
+	<hr>
+{%endfor%}
 {%endblock%}
+<!-- <form id='percentage' method="POST" action="{% url 'percentage' groups.id %}">
+	{%csrf_token%}
+	<input type="hidden">
+</form>
+{% if group.status == False %}
+{% else %}
+{%endif%} -->
+<!-- <a href="javascript:{document.getElementById('percentage').submit()}">
+				<button type="button" class="btn btn-outline-warning btn-block"><i class="fa fa-arrow-circle-up" style="font-size:15px"></i> Progress {{group.percentage}}%</button>
+			</a> -->	
+<!-- 
+# @login_required(login_url="/accounts/signup")
+# def percentage(request,Groups_id):
+# 	if request.method == 'POST':
+# 		group = get_object_or_404(Group,pk=Groups_id)
+# 		group.percentage += 1
+# 		group.save()
+# 		return redirect('/group/' + str(group.id)) -->
+
+
+
+<!-- @require_POST
+def add_task111111(request):
+    if request.method == 'POST':
+        form = TodoForm(request.POST or None)
+        if form.is_valid():
+       		form.save()
+        	messages.success(request,('Task Has Been Added'))
+        	return redirect('home')            
+    	else:
+    		messages.success(request,('Seems Like There Was A MIstake , Try Again Please...'))
+    		return render(request,'Groups/home.html',{})
+    else:
+        return render(request,'home.html',{}) -->
+
+<!-- # def todo(request):
+# 	todo_list=Group.objects.orderby('id')
+# 	form = TodoForm()
+# 	return render(request,'Groups/home.html',{'todo_list':todo_list})
+# @require_POST
+# def add(request):
+# 	form = TodoForm(request.POST)
+# 	return redirect('home') -->
+
+
+<!-- def tasks(request,Groups_id):
+	group = get_object_or_404(Group,pk=Groups_id)
+	return render(request,'Groups/tasks.html',{'group':group}) -->

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+	<div class="col-2">
+		<img src="{{ group.icon.url }}" class="img-fluid"/>
+	</div>
+	<div class="col-10">
+		<a href={{group.tasks}}><h2>{{group.name}}</h2></a>
+	</div>
+</div>
+<div class="row">
+	<div class="col-8">
+		<p>{{group.description}}</p>
+	</div>
+	<div class="col-4">
+		<a href=>
+			{% if group.status == False %}		
+				<button type="button" class="btn btn-outline-warning btn-lg">Pending</button>
+			{% else %}
+				<button type="button" class="btn btn-outline-success btn-lg">Done</button>
+			{%endif%}
+		</a>
+	</div>	
+</div>
+<div class="row">
+	<div class="col-4">
+		<h4>Created by {{ group.created_by }}</h4>
+	</div>
+	<div class="col-4 text-right">
+		<h4>{{ group.pub_date_pretty }}</h4>
+	</div>
+</div>
+{%endblock%}

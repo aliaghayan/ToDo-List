@@ -19,3 +19,10 @@ class Group(models.Model):
     def __str__(self):
         return self.name
 
+class Todo(models.Model):
+    text = models.CharField(max_length=150)
+    complete = models.BooleanField(default=False)
+    assigned_to = models.CharField(max_length=40)
+
+    def __str__(self):
+        return self.text
